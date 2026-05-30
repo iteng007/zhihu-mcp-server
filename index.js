@@ -311,21 +311,22 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     switch (name) {
       case 'zhihu_hot_list': {
         const limit = args.limit || 50;
-        // Use Android API for better compatibility
+        // Use the correct API endpoint from zhihu-plus-plus
         const url = `https://api.zhihu.com/topstory/hot-list?limit=${limit}`;
         const data = await zhihuAndroidRequest(url);
 
         // Transform to user-friendly format
+        // The API returns data with nested structure: target.title_area.text, target.excerpt_area.text, etc.
         const items = data.data || [];
         const formatted = {
           total: items.length,
           hot_list: items.map((item, index) => ({
             rank: index + 1,
-            title: item.target?.title || item.target?.question?.title || 'N/A',
-            excerpt: item.target?.excerpt || item.target?.question?.excerpt || '',
-            type: item.target?.type || 'unknown',
-            id: item.target?.id || item.target?.question?.id,
-            url: item.target?.url || `https://www.zhihu.com/question/${item.target?.question?.id || item.target?.id}`
+            title: item.target?.title_area?.text || 'N/A',
+            excerpt: item.target?.excerpt_area?.text || '',
+            type: item.type || 'hot_list_feed',
+            url: item.target?.link?.url || '',
+            hot_value: item.target?.metrics_area?.text || ''
           }))
         };
 
