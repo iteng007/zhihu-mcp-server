@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Configuration (contains sensitive cookies)
+.zhihu-mcp/
+
+# Test files
+test-*.js
+debug-*.js
+analyze-*.js
+parse-cookies.js
+configure-cookies.js
+
+# User data
+zhihucookies.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
